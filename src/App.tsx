@@ -1,9 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {getLocalStorageState, setLocalStorageState} from "./localStorage";
+import {
+    clearLocalStorage,
+    getLocalStorageState,
+    setLocalStorageState
+} from "./localStorage";
 import {api} from "./api";
 import {createRequestTextForDiets} from "./utils";
 import List from "@mui/material/List";
-import {Grid, Typography} from "@mui/material";
+import {Button, Grid, Typography} from "@mui/material";
 import {GuestItem} from "./components/GuestItem";
 import {GuestDietType, PartyGuestType} from "./types";
 
@@ -13,12 +17,18 @@ function App() {
 
     const [guests, setGuests] = useState<PartyGuestType[]>([])
     const [diet, setDiet] = useState<GuestDietType[]>([])
+    const [appInitialized, setAppInitialized] = useState<boolean>(false)
 
     const [openList, setOpenList] = React.useState<boolean>(true);
 
     const handleGuestsListClick = () => {
         setOpenList(!openList);
     };
+
+    const onClearAppClick = () => {
+        clearLocalStorage()
+        setAppInitialized(false)
+    }
 
 
     useEffect(() => {
@@ -35,6 +45,7 @@ function App() {
                         .then(res => {
                             setLocalStorageState('diet', res.data.diet)
                             setDiet(res.data.diet)
+                            setAppInitialized(true)
                         })
                 })
                 .catch(e => {
@@ -43,14 +54,24 @@ function App() {
         } else {
             setGuests(guestsFromLocalStorage)
             setDiet(dietFromLocalStorage)
+            setAppInitialized(true)
         }
-    }, [])
+    }, [appInitialized])
+
+    if (!appInitialized) {
+        return <div>Loading</div>
+    }
 
     return (
         <>
             <Grid container>
                 <Grid item
-                      sx={{width: '100%', maxWidth: 200, bgcolor: 'background.paper'}}
+                      sx={{
+                          width: '100%',
+                          maxWidth: 200,
+                          bgcolor: 'background.paper',
+                          margin: 2
+                      }}
                 >
                     <Typography>Guests list</Typography>
                     <List component="div" disablePadding>
@@ -69,6 +90,12 @@ function App() {
                             )
                         })}
                     </List>
+                    <Button
+                        variant={'outlined'}
+                        color={'error'}
+                        onClick={onClearAppClick}
+                    >Clear app
+                    </Button>
                 </Grid>
             </Grid>
         </>

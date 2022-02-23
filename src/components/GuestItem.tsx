@@ -1,5 +1,5 @@
 import React from 'react';
-import {ListItem, ListItemButton, ListItemText} from "@mui/material";
+import {ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
 import {FeedbackForm} from "./FeedbackForm";
 import {FormModal} from "./FormModal";
 import {getLocalStorageState} from "../localStorage";
@@ -14,7 +14,6 @@ type GuestItemPropsType = {
 }
 
 export const GuestItem = ({guestDiet, eatsPizza, name, handleGuestsListClick}: GuestItemPropsType) => {
-    console.log('GUEST ITEM RENDER')
     const feedbacksFromLocalStorage = getLocalStorageState<FeedbackType[]>('feedback', [])
     const currentGuestFeedback = feedbacksFromLocalStorage.filter(guest => guest.name === name)
     console.log(currentGuestFeedback)
@@ -29,6 +28,11 @@ export const GuestItem = ({guestDiet, eatsPizza, name, handleGuestsListClick}: G
     return (
         <ListItem disablePadding>
             <ListItemButton disabled={!eatsPizza} onClick={handleGuestClick}>
+                {currentGuestFeedback.length !== 0 &&
+				<ListItemIcon sx={{minWidth: 25}}>
+					✅
+				</ListItemIcon>
+                }
                 <ListItemText
                     primary={name}
                     style={{color: `${guestDiet && guestDiet.isVegan && eatsPizza ? 'green' : ''}`}}

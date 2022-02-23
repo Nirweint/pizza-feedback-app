@@ -17,6 +17,7 @@ export const GuestFeedback = ({currentGuestFeedback, setOpenModal}: GuestFeedbac
     const handleDeleteClick = () => {
         const newFeedbackData = feedbacksFromLocalStorage.filter(guest => guest.name !== name)
         setLocalStorageState('feedback', newFeedbackData)
+        setOpenModal(false)
     }
 
     return (

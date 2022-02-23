@@ -21,7 +21,6 @@ type FeedbackFormPropsType = {
 }
 
 export const FeedbackForm = ({name, setOpenModal}: FeedbackFormPropsType) => {
-    console.log("FORM RENDER")
     const feedbacksFromLocalStorage = getLocalStorageState<FeedbackType[]>('feedback', [])
 
     const {
@@ -33,7 +32,6 @@ export const FeedbackForm = ({name, setOpenModal}: FeedbackFormPropsType) => {
         const dataToSend: FeedbackType[] = [...feedbacksFromLocalStorage, {...data, name}]
         setLocalStorageState('feedback', dataToSend)
         setOpenModal(false)
-        console.log(dataToSend)
     };
 
     const handleCloseModalClick = () => {
@@ -46,6 +44,7 @@ export const FeedbackForm = ({name, setOpenModal}: FeedbackFormPropsType) => {
     return (
         <Paper elevation={3}>
             <Box p={2} sx={{display: 'flex', justifyContent: 'center'}}>
+
                 <FormControl>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <Typography>Name</Typography>
@@ -117,7 +116,7 @@ export const FeedbackForm = ({name, setOpenModal}: FeedbackFormPropsType) => {
                             </Box>
 
                             <Box>
-                                {touched.length > 1 && hasErrors.length === 0 ?
+                                {touched.length >= 2 && hasErrors.length === 0 ?
                                     <Button
                                         type="submit"
                                         color={"success"}

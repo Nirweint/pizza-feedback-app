@@ -13,7 +13,3 @@ export const getLocalStorageState = <T>(key: string, defaultState: T) => {
 export const clearLocalStorage = () => {
     localStorage.clear()
 }
-
-export const removeFromLocalStorage = (key: string) => {
-    localStorage.removeItem(key)
-}
