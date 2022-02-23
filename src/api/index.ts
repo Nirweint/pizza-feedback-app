@@ -1,5 +1,5 @@
 import axios from "axios";
-import {GuestDietType, PartyGuestType} from "../store/reducer";
+import {GuestDietType, PartyGuestType} from "../types";
 
 const baseURL = 'https://gp-js-test.herokuapp.com/pizza';
 

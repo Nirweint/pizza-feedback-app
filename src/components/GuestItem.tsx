@@ -1,8 +1,10 @@
 import React from 'react';
 import {ListItem, ListItemButton, ListItemText} from "@mui/material";
-import {GuestDietType} from "../store/reducer";
 import {FeedbackForm} from "./FeedbackForm";
 import {FormModal} from "./FormModal";
+import {getLocalStorageState} from "../localStorage";
+import {FeedbackType, GuestDietType} from "../types";
+import {GuestFeedback} from "./GuestFeedback";
 
 type GuestItemPropsType = {
     name: string
@@ -12,6 +14,10 @@ type GuestItemPropsType = {
 }
 
 export const GuestItem = ({guestDiet, eatsPizza, name, handleGuestsListClick}: GuestItemPropsType) => {
+    console.log('GUEST ITEM RENDER')
+    const feedbacksFromLocalStorage = getLocalStorageState<FeedbackType[]>('feedback', [])
+    const currentGuestFeedback = feedbacksFromLocalStorage.filter(guest => guest.name === name)
+    console.log(currentGuestFeedback)
 
     const [openModal, setOpenModal] = React.useState<boolean>(false);
 
@@ -28,12 +34,22 @@ export const GuestItem = ({guestDiet, eatsPizza, name, handleGuestsListClick}: G
                     style={{color: `${guestDiet && guestDiet.isVegan && eatsPizza ? 'green' : ''}`}}
                 />
             </ListItemButton>
-            <FormModal
-                setOpenModal={setOpenModal}
-                openModal={openModal}
-            >
-                <FeedbackForm name={name}/>
-            </FormModal>
+            {currentGuestFeedback.length === 0 ?
+                <FormModal
+                    setOpenModal={setOpenModal}
+                    openModal={openModal}
+                >
+                    <FeedbackForm name={name} setOpenModal={setOpenModal}/>
+                </FormModal>
+                :
+                <FormModal
+                    setOpenModal={setOpenModal}
+                    openModal={openModal}
+                >
+                   <GuestFeedback currentGuestFeedback={currentGuestFeedback[0]} setOpenModal={setOpenModal}/>
+                </FormModal>
+            }
+
         </ListItem>
     );
 };

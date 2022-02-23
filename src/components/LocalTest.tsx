@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch} from "react-redux";
-import {fetchGuests} from "../store/reducer";
 import {
     clearLocalStorage,
     getLocalStorageState,
@@ -11,9 +10,6 @@ import {
 export const LocalTest = () => {
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(fetchGuests())
-    }, [dispatch])
 
     const [value, setValue] = useState<number>(0)
 

@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {getLocalStorageState, setLocalStorageState} from "./localStorage";
-import {GuestDietType, PartyGuestType} from "./store/reducer";
 import {api} from "./api";
 import {createRequestTextForDiets} from "./utils";
 import List from "@mui/material/List";
 import {Grid, Typography} from "@mui/material";
 import {GuestItem} from "./components/GuestItem";
+import {GuestDietType, PartyGuestType} from "./types";
 
 function App() {
     const guestsFromLocalStorage = getLocalStorageState<PartyGuestType[]>('guests', [])
@@ -55,6 +55,7 @@ function App() {
                     <Typography>Guests list</Typography>
                     <List component="div" disablePadding>
                         {guests.map(({name, eatsPizza}, index) => {
+
                             const guestDiet = diet.find((guest) => guest.name === name)
 
                             return (

@@ -1,4 +1,4 @@
-import {PartyGuestType} from "../store/reducer";
+import {PartyGuestType} from "../types";
 
 export const createRequestTextForDiets = (guests: PartyGuestType[]) => {
     const res = guests.reduce((acc, guest) => {
