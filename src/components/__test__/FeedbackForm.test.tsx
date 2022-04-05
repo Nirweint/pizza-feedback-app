@@ -1,18 +1,12 @@
 import React from 'react';
-import renderer from 'react-test-renderer';
+import { render, cleanup } from '@testing-library/react';
+
 import {FeedbackForm} from "../FeedbackForm";
 
-test('renders correctly', () => {
-  const component = renderer.create(<FeedbackForm name={"Alex"} setOpenModal={()=>{}}/>);
+afterEach(cleanup);
 
-  let tree = component.toJSON();
-  expect(tree).toMatchSnapshot();
+test('FeedbackForm renders correctly', () => {
+  const { asFragment }= render(<FeedbackForm name={"Alex"} setOpenModal={()=>{}}/>);
 
-  // if (tree && "props" in tree) {
-  //   tree && tree.props.handleCreateNewFieldClick();
-  // }
-  //
-  // tree = component.toJSON();
-  // expect(tree).toMatchSnapshot();
-
+  expect(asFragment()).toMatchSnapshot();
 });
