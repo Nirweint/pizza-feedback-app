@@ -1,9 +1,9 @@
-import {PartyGuestType} from "../types";
+import { PartyGuestType } from "../types";
 
 export const createRequestTextForDiets = (guests: PartyGuestType[]) => {
-    const res = guests.reduce((acc, guest) => {
-        const guestString = guest.name.split(' ').join('%20')
-        return acc = acc + guestString + ','
-    }, '')
-    return res.slice(0, -1)
-}
+  const res = guests.reduce((acc, guest) => {
+    const guestString = guest.name.split(" ").join("%20");
+    return (acc = acc + guestString + ",");
+  }, "");
+  return res.slice(0, -1);
+};

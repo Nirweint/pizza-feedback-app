@@ -1,16 +1,16 @@
 export type FeedbackType = {
-    name: string
-    rating: number
-    phone: string
-    comment: string
-}
+  name: string;
+  rating: number;
+  phone: string;
+  comment: string;
+};
 
 export type PartyGuestType = {
-    name: string
-    eatsPizza: boolean
-}
+  name: string;
+  eatsPizza: boolean;
+};
 
 export type GuestDietType = {
-    name: string
-    isVegan: boolean
-}
+  name: string;
+  isVegan: boolean;
+};
