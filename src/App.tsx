@@ -1,11 +1,12 @@
 import React from 'react';
-import {FeedbackWidget} from "./components/feedBack/FeedbackWidget";
+import {Header} from "./components/header/Header";
+import {Dashboard} from "./pages/dashboard/Dashboard";
 
 export const App = () => {
   return (
-    <div>
-        asdfafdsgfgd
-    <FeedbackWidget />
-    </div>
+    <>
+      <Header/>
+      <Dashboard/>
+    </>
   );
 }
