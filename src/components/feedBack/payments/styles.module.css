@@ -1,0 +1,45 @@
+.App {
+    font-family: sans-serif;
+    text-align: center;
+  }
+  .loadBtn {
+    background: red;
+    color: blue;
+    font-size: 20px;
+  }
+  
+  .wrapperPizza {
+    margin-top: 20px;
+    width: 200px;
+    height: 200px;
+    border: 1px solid black;
+    display: flex;
+    border-radius: 50%;
+    position: relative;
+  }
+  
+  .wrapperPizza div {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 1px;
+    width: 100%;
+    background: black;
+  }
+  
+  .btnPay {
+    padding: 5px 20px;
+    border-radius: 8px;
+    background-color: #cfe2f3;
+    width: 70px;
+  }
+  
+  .disabledBtn {
+    background-color: #efefef;
+    /* opacity: 0.5; */
+  }
+  
+  .table {
+    border: 1px solid black;
+  }
+  
