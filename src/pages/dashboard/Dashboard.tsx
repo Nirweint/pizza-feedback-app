@@ -4,6 +4,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import {WidgetCard} from "../../components/widgetCard/WidgetCard";
 import {FeedbackProgressWidget} from "../../components/feedbackProgressWidget/FeedbackProgressWidget";
+import { PaymentsWidget } from '../../components/feedBack/payments/PaymentsWidget';
 
 export const Dashboard = () => {
 
@@ -15,6 +16,7 @@ export const Dashboard = () => {
           <Grid item marginRight={2}>
             <WidgetCard title='Feedback'>
               <FeedbackWidget/>
+              <PaymentsWidget />
             </WidgetCard>
           </Grid>
           <Grid item marginRight={2}>
