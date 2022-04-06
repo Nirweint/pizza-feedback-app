@@ -13,6 +13,8 @@ import {
 import {FeedbackType} from "../../types";
 import {getLocalStorageState, setLocalStorageState} from "../../localStorage";
 import {v1} from 'uuid';
+import {useDispatch} from "react-redux";
+import {setFeedbackAC} from "../../store/reducers/feedback";
 
 type FeedbackFormType = Omit<FeedbackType, "name">;
 
@@ -25,6 +27,7 @@ type FeedbackFormPropsType = {
 
 export const FeedbackForm = ({name, setOpenModal}: FeedbackFormPropsType) => {
 
+  const dispatch = useDispatch()
   const [fields, setFields] = useState<fieldsArrayType>([]);
 
   const feedbacksFromLocalStorage = getLocalStorageState<FeedbackType[]>(
@@ -44,6 +47,7 @@ export const FeedbackForm = ({name, setOpenModal}: FeedbackFormPropsType) => {
       {...data, name}
     ];
     setLocalStorageState("feedback", dataToSend);
+    dispatch(setFeedbackAC(dataToSend))
     setOpenModal(false);
   };
 

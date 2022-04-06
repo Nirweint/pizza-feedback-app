@@ -2,6 +2,8 @@ import React from "react";
 import { Box, Button, Paper, Rating, Typography } from "@mui/material";
 import {FeedbackType} from "../../types";
 import {getLocalStorageState, setLocalStorageState} from "../../localStorage";
+import {useDispatch} from "react-redux";
+import {setFeedbackAC} from "../../store/reducers/feedback";
 
 type GuestFeedbackPropsType = {
   currentGuestFeedback: FeedbackType;
@@ -12,6 +14,7 @@ export const GuestFeedback = ({
   currentGuestFeedback,
   setOpenModal
 }: GuestFeedbackPropsType) => {
+  const dispatch = useDispatch()
   const { name, phone, rating, comment } = currentGuestFeedback;
 
   const feedbacksFromLocalStorage = getLocalStorageState<FeedbackType[]>(
@@ -24,6 +27,7 @@ export const GuestFeedback = ({
       (guest) => guest.name !== name
     );
     setLocalStorageState("feedback", newFeedbackData);
+    dispatch(setFeedbackAC(newFeedbackData))
     setOpenModal(false);
   };
 

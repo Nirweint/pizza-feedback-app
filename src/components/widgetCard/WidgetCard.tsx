@@ -5,7 +5,11 @@ import CardContent from '@mui/material/CardContent';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-export const WidgetCard: FC = ({children}) => {
+type WidgetCardPropsType = {
+  title: string
+}
+
+export const WidgetCard: FC<WidgetCardPropsType> = ({children, title}) => {
   return (
     <Card sx={{
       minWidth: 345,
@@ -19,7 +23,7 @@ export const WidgetCard: FC = ({children}) => {
             <MoreVertIcon/>
           </IconButton>
         }
-        title="Feedback"
+        title={title}
       />
       <CardContent>
         {children}

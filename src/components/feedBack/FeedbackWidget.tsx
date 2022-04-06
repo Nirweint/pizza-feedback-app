@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 
-import { Button, Grid, Typography, List } from "@mui/material";
-import {GuestDietType, PartyGuestType} from "../../types";
+import {Button, Grid, Typography, List} from "@mui/material";
+import {FeedbackType, GuestDietType, PartyGuestType} from "../../types";
 import {
   clearLocalStorage,
   getLocalStorageState,
@@ -10,9 +10,13 @@ import {
 import {GuestItem} from "./GuestItem";
 import {createRequestTextForDiets} from "../../utils";
 import {api} from "../../api";
+import {useDispatch} from "react-redux";
+import {setFeedbackAC} from "../../store/reducers/feedback";
 
 
 export const FeedbackWidget = () => {
+  const dispatch = useDispatch()
+
   const [guests, setGuests] = useState<PartyGuestType[]>([]);
   const [diet, setDiet] = useState<GuestDietType[]>([]);
   const [appInitialized, setAppInitialized] = useState<boolean>(false);
@@ -24,6 +28,10 @@ export const FeedbackWidget = () => {
   );
   const dietFromLocalStorage = getLocalStorageState<GuestDietType[]>(
     "diet",
+    []
+  );
+  const feedbacksFromLocalStorage = getLocalStorageState<FeedbackType[]>(
+    "feedback",
     []
   );
 
@@ -62,6 +70,7 @@ export const FeedbackWidget = () => {
     } else {
       setGuests(guestsFromLocalStorage);
       setDiet(dietFromLocalStorage);
+      dispatch(setFeedbackAC(feedbacksFromLocalStorage))
       setAppInitialized(true);
     }
   }, [appInitialized]);
@@ -69,6 +78,7 @@ export const FeedbackWidget = () => {
   if (!appInitialized) {
     return <div>Loading</div>;
   }
+
 
   return (
     <Grid container>
@@ -83,7 +93,7 @@ export const FeedbackWidget = () => {
       >
         <Typography>Guests list</Typography>
         <List component="div" disablePadding>
-          {guests.map(({ name, eatsPizza }, index) => {
+          {guests.map(({name, eatsPizza}, index) => {
             const guestDiet = diet.find((guest) => guest.name === name);
 
             return (
