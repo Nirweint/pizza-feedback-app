@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`GuestItem renders correctly 1`] = `
+<DocumentFragment>
+  <li
+    class="MuiListItem-root MuiListItem-gutters css-1nxmd3h-MuiListItem-root"
+  >
+    <div
+      class="MuiListItemButton-root MuiListItemButton-gutters MuiButtonBase-root css-cvhtoe-MuiButtonBase-root-MuiListItemButton-root"
+      data-testid="name-wrapper"
+      role="button"
+      tabindex="0"
+    >
+      <div
+        class="MuiListItemText-root css-tlelie-MuiListItemText-root"
+        data-testid="name-text"
+        style="color: green;"
+      >
+        <span
+          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
+        >
+          Alex
+        </span>
+      </div>
+      <span
+        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+      />
+    </div>
+    <div />
+  </li>
+</DocumentFragment>
+`;

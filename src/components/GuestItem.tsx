@@ -39,11 +39,12 @@ export const GuestItem = (props: GuestItemPropsType) => {
 
   return (
     <ListItem disablePadding>
-      <ListItemButton disabled={!eatsPizza} onClick={handleGuestClick}>
+      <ListItemButton data-testid='name-wrapper' disabled={!eatsPizza} onClick={handleGuestClick}>
         {currentGuestFeedback.length !== 0 && (
           <ListItemIcon sx={{ minWidth: 25 }}>✅</ListItemIcon>
         )}
         <ListItemText
+          data-testid='name-text'
           primary={name}
           style={{
             color: `${
