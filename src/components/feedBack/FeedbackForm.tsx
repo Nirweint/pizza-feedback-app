@@ -10,8 +10,8 @@ import {
   FormGroup,
   Button
 } from "@mui/material";
-import {getLocalStorageState, setLocalStorageState} from "../localStorage";
-import {FeedbackType} from "../types";
+import {FeedbackType} from "../../types";
+import {getLocalStorageState, setLocalStorageState} from "../../localStorage";
 import {v1} from 'uuid';
 
 type FeedbackFormType = Omit<FeedbackType, "name">;

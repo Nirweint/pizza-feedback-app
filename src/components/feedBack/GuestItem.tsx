@@ -6,10 +6,10 @@ import {
   ListItemText
 } from "@mui/material";
 import { FeedbackForm } from "./FeedbackForm";
-import { FormModal } from "./FormModal";
-import { getLocalStorageState } from "../localStorage";
-import { FeedbackType, GuestDietType } from "../types";
-import { GuestFeedback } from "./GuestFeedback";
+import { FormModal } from './FormModal';
+import {getLocalStorageState} from "../../localStorage";
+import {FeedbackType, GuestDietType} from "../../types";
+import {GuestFeedback} from "./GuestFeedback";
 
 type GuestItemPropsType = {
   name: string;

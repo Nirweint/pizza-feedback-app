@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Button, Paper, Rating, Typography } from "@mui/material";
-import { FeedbackType } from "../types";
-import { getLocalStorageState, setLocalStorageState } from "../localStorage";
+import {FeedbackType} from "../../types";
+import {getLocalStorageState, setLocalStorageState} from "../../localStorage";
 
 type GuestFeedbackPropsType = {
   currentGuestFeedback: FeedbackType;
