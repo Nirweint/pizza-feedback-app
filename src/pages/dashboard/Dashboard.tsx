@@ -40,7 +40,7 @@ export const Dashboard = () => {
       <Grid container p={2}>
         <Typography variant="h3">Dashboard</Typography>
         <DragDropContext onDragEnd={handleOnDragEnd}>
-          <Droppable droppableId='widgets'>
+          <Droppable droppableId='widgets' direction='horizontal'>
             {(provided): JSX.Element => (
               <Grid container {...provided.droppableProps} ref={provided.innerRef}>
                 {widgets.map(({id, component, title}, index) => (
