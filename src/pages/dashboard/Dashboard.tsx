@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import {WidgetCard} from "../../components/widgetCard/WidgetCard";
 import {DragDropContext, Draggable, Droppable, DropResult} from "react-beautiful-dnd";
 import {FeedbackProgressWidget} from "../../components/feedbackProgressWidget/FeedbackProgressWidget";
+import {PaymentsWidget} from "../../components/feedBack/payments/PaymentsWidget";
 
 type WidgetType = {
   id: string;
@@ -20,7 +21,13 @@ const widgetsData: WidgetType[] = [{
   id: '2',
   component: <FeedbackProgressWidget/>,
   title: 'Feedback process',
-}];
+},
+  {
+    id: '3',
+    component: <PaymentsWidget/>,
+    title: 'Payments table',
+  },
+];
 
 export const Dashboard = () => {
 
