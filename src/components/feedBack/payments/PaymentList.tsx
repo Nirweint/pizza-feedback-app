@@ -5,30 +5,39 @@ import Table from "rc-table";
 import classes from './styles.module.css';
 
 export const PaymentList = () => {
-  const [guests, setGuests] = useState([]);
-  const [pizza, setPizza] = useState([]);
-  const [paidArray, setPaidArray] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [users, setUsers] = useState([]);
+    const [guests, setGuests] = useState([]);
+    const [pizza, setPizza] = useState([]);
+    const [paidArray, setPaidArray] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [users, setUsers] = useState([]);
+    const [pizzaLovers, setPizzaLovers] = useState([]);
+  
+    const parts = pizzaLovers.length;
+    // const angle = 360 / parts;
+  
+    useEffect(() => {
+      setPizzaLovers(guests.filter(({ eatsPizza }) => eatsPizza));
+    }, [guests]);
+  
+    useEffect(() => {
+      const handleOnClick = async () => {
+        setLoading(true);
+        const guests = await getGuests();
+        setGuests(guests);//@ts-ignore
+        const lovers = guests.filter(({ eatsPizza }) => eatsPizza);
+        const pizza = await getPizza(getPizzaType(lovers), lovers.length);
+        setPizza(pizza);
+        const guestsResponse = await fetch(PARTY_GUEST_URL);
+        const { party } = await guestsResponse.json();
+        setUsers(party);
+        setPaidArray([]);
+        pizza && guests && setLoading(false);
+      };
+  
+      handleOnClick();
+    }, []);
 
-  const pizzaLovers = guests.filter(({ eatsPizza }) => eatsPizza);
-  const parts = pizzaLovers.length;
-  const angle = 360 / parts;
-  const handleOnClick = async () => {
-    setLoading(true);
-    const guests = await getGuests();
-    setGuests(guests);
-    const pizza = await getPizza(getPizzaType(pizzaLovers), parts);
-    
-    setPizza(pizza);
-    const guestsResponse = await fetch(PARTY_GUEST_URL);
-    const { party } = await guestsResponse.json();
-    setUsers(party);
-    setPaidArray([]);
-    pizza && guests && setLoading(false);
-  };
-
-//   useEffect(() => {handleOnClick},[])
+    //   useEffect(() => {handleOnClick},[])
 //@ts-ignore
   const partPrice = pizza.price / parts || 0;
 
@@ -56,11 +65,7 @@ export const PaymentList = () => {
     }
   ];
   return (
-    <div>
-      <button className={classes.loadBtn} onClick={handleOnClick}>
-        Load party
-      </button>
-        
+    <div>        
       {loading ? (
         <p>loading...</p>
       ) : (

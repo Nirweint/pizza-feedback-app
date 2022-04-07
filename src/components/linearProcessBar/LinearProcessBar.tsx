@@ -12,10 +12,11 @@ export const LinearProcessBar = ({currentProgress, maxValue}: LinearProcessBarPr
   const [progress, setCurrentProgress] = useState(0);
 
   useEffect(() => {
-    const pr = (100 / maxValue) * currentProgress;
-
-    setCurrentProgress(pr);
-
+    if (maxValue < 1) {
+      setCurrentProgress(0);
+    } else {
+      setCurrentProgress((100 / maxValue) * currentProgress);
+    }
   }, [currentProgress]);
 
   return (

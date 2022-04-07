@@ -1,18 +1,34 @@
 import React, {useEffect, useState} from "react";
 
+import {useDispatch} from "react-redux";
 import {Button, Grid, Typography, List} from "@mui/material";
-import {FeedbackType, GuestDietType, PartyGuestType} from "../../types";
+
+import {GuestItem} from "./GuestItem";
+import {DropDownMenu} from "../common/dropDownMenu/DropDownMenu";
 import {
   clearLocalStorage,
   getLocalStorageState,
   setLocalStorageState
 } from "../../localStorage";
-import {GuestItem} from "./GuestItem";
-import {createRequestTextForDiets} from "../../utils";
-import {api} from "../../api";
-import {useDispatch} from "react-redux";
 import {setFeedbackAC} from "../../store/reducers/feedback";
+import {api} from "../../api";
+import {createRequestTextForDiets} from "../../utils";
 
+import {FeedbackType, GuestDietType, PartyGuestType} from "../../types";
+
+enum FilterOptions {
+  all = 'All',
+  vegans = 'Vegans',
+  meat = 'Meat',
+  active = 'Active',
+}
+
+const filterOptions = [
+  FilterOptions.all,
+  FilterOptions.vegans,
+  FilterOptions.meat,
+  FilterOptions.active
+];
 
 export const FeedbackWidget = () => {
   const dispatch = useDispatch()
@@ -21,7 +37,9 @@ export const FeedbackWidget = () => {
   const [diet, setDiet] = useState<GuestDietType[]>([]);
   const [appInitialized, setAppInitialized] = useState<boolean>(false);
   const [openList, setOpenList] = useState<boolean>(true);
+  const [filter, setFilter] = useState<string>(FilterOptions.all);
 
+  console.log(filter)
   const guestsFromLocalStorage = getLocalStorageState<PartyGuestType[]>(
     "guests",
     []
@@ -37,6 +55,10 @@ export const FeedbackWidget = () => {
 
   const handleGuestsListClick = () => {
     setOpenList(!openList);
+  };
+
+  const handleFilterChange = (filterValue: string) => {
+    setFilter(filterValue);
   };
 
   const onClearAppClick = () => {
@@ -75,13 +97,38 @@ export const FeedbackWidget = () => {
     }
   }, [appInitialized]);
 
+  let filteredGuests = guests;
+
+  if (filter === FilterOptions.vegans) {
+    filteredGuests = guests.filter(({name, eatsPizza}) => {
+      const guestDiet = diet.find((guest) => guest.name === name);
+      return guestDiet?.isVegan && eatsPizza;
+    })
+  }
+
+  if (filter === FilterOptions.meat) {
+    filteredGuests = guests.filter(({name, eatsPizza}) => {
+      const guestDiet = diet.find((guest) => guest.name === name);
+      return !guestDiet?.isVegan && eatsPizza;
+    })
+  }
+
+  if (filter === FilterOptions.active) {
+    filteredGuests = guests.filter(({name, eatsPizza}) => {
+      return eatsPizza;
+    })
+  }
+
   if (!appInitialized) {
     return <div>Loading</div>;
   }
 
-
   return (
-    <Grid container>
+    <Grid container flexDirection='column'>
+      <Grid item alignSelf='flex-end'>
+        <DropDownMenu options={filterOptions} name='Filter'
+                      onChange={handleFilterChange}/>
+      </Grid>
       <Grid
         item
         sx={{
@@ -93,7 +140,7 @@ export const FeedbackWidget = () => {
       >
         <Typography>Guests list</Typography>
         <List component="div" disablePadding>
-          {guests.map(({name, eatsPizza}, index) => {
+          {filteredGuests.map(({name, eatsPizza}, index) => {
             const guestDiet = diet.find((guest) => guest.name === name);
 
             return (

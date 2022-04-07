@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 
@@ -10,7 +11,8 @@ const style = {
   width: 340,
   bgcolor: "background.paper",
   boxShadow: 12,
-  p: 4
+  p: 4,
+  outline: 'none',
 };
 
 type FormModalPropsType = {
