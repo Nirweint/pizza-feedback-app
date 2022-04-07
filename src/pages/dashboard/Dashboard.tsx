@@ -1,11 +1,13 @@
 import React, {ReactElement, useState} from 'react';
-import {FeedbackWidget} from "../../components/feedBack/FeedbackWidget";
+
+import {DragDropContext, Draggable, Droppable, DropResult} from "react-beautiful-dnd";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import {WidgetCard} from "../../components/widgetCard/WidgetCard";
-import {DragDropContext, Draggable, Droppable, DropResult} from "react-beautiful-dnd";
-import {FeedbackProgressWidget} from "../../components/feedbackProgressWidget/FeedbackProgressWidget";
+
+import {FeedbackWidget} from "../../components/feedBack/FeedbackWidget";
 import {PaymentsWidget} from "../../components/feedBack/payments/PaymentsWidget";
+import {FeedbackProgressWidget} from "../../components/feedbackProgressWidget/FeedbackProgressWidget";
+import {WidgetCard} from "../../components/widgetCard/WidgetCard";
 
 type WidgetType = {
   id: string;
@@ -13,19 +15,23 @@ type WidgetType = {
   title: string;
 }
 
+const feedbackWidgetTitle = 'Feedback';
+const feedbackProgressWidgetTitle = 'Feedback process';
+const paymentsWidgetTitle = 'Payments table';
+
 const widgetsData: WidgetType[] = [{
   id: '1',
   component: <FeedbackWidget/>,
-  title: 'Feedback'
+  title: feedbackWidgetTitle,
 }, {
   id: '2',
   component: <FeedbackProgressWidget/>,
-  title: 'Feedback process',
+  title: feedbackProgressWidgetTitle,
 },
   {
     id: '3',
     component: <PaymentsWidget/>,
-    title: 'Payments table',
+    title: paymentsWidgetTitle,
   },
 ];
 
@@ -35,7 +41,7 @@ export const Dashboard = () => {
 
   const handleOnDragEnd = (result: DropResult) => {
     if (result.destination) {
-      const items = Array.from(widgets);
+      const items = [...widgets];
       const [reorderedItem] = items.splice(result.source.index, 1);
       items.splice(result.destination.index, 0, reorderedItem);
       setWidgets(items)
