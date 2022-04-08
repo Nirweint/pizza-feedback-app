@@ -1,8 +1,6 @@
 import React, {useEffect} from 'react';
 
-import CircularProgress, {
-  CircularProgressProps,
-} from '@mui/material/CircularProgress';
+import CircularProgress, {CircularProgressProps} from '@mui/material/CircularProgress';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
@@ -24,7 +22,12 @@ export const CircularProgressBar = ({currentProgress, maxValue}: ProgressBarType
 
 const CircularProgressWithLabel = (props: CircularProgressProps & { value: number },) => {
   return (
-    <Box sx={{position: 'relative', display: 'inline-flex', width: '100%', justifyContent: 'center',}}>
+    <Box sx={{
+      position: 'relative',
+      display: 'inline-flex',
+      width: '100%',
+      justifyContent: 'center',
+    }}>
       <CircularProgress variant="determinate" {...props} size={200}/>
       <Box
         sx={{
@@ -39,6 +42,7 @@ const CircularProgressWithLabel = (props: CircularProgressProps & { value: numbe
         }}
       >
         <Typography
+          sx={{fontSize: 25}}
           variant="caption"
           component="div"
           color="text.secondary"
