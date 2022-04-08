@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import {useSelector} from "react-redux";
 
-import {LinearProcessBar} from "../linearProcessBar/LinearProcessBar";
+import {LinearProgressBar} from "../linearProgressBar/LinearProgressBar";
 import {getLocalStorageState} from "../../localStorage";
 import {getNumberOfEaters} from "../../utils";
 import {selectFeedbacks} from "../../store/selectors/feedback";
@@ -23,7 +23,7 @@ export const FeedbackProgressWidget = () => {
   return (
     <Grid container>
       <Typography>Filled forms with feedback</Typography>
-      <LinearProcessBar
+      <LinearProgressBar
         maxValue={getNumberOfEaters(guestsFromLocalStorage)}
         currentProgress={feedbacks.length}
       />

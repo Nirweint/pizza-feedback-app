@@ -8,6 +8,7 @@ import {FeedbackWidget} from "../../components/feedBack/FeedbackWidget";
 import {PaymentsWidget} from "../../components/feedBack/payments/PaymentsWidget";
 import {FeedbackProgressWidget} from "../../components/feedbackProgressWidget/FeedbackProgressWidget";
 import {WidgetCard} from "../../components/widgetCard/WidgetCard";
+import {PaymentsProgressWidget} from "../../components/paymentsProgressWidget/PaymentsProgressWidget";
 
 type WidgetType = {
   id: string;
@@ -16,14 +17,16 @@ type WidgetType = {
 }
 
 const feedbackWidgetTitle = 'Feedback';
-const feedbackProgressWidgetTitle = 'Feedback process';
+const feedbackProgressWidgetTitle = 'Feedback progress';
 const paymentsWidgetTitle = 'Payments table';
+const paymentsProgressWidgetTitle = 'Payments progress';
 
 const widgetsData: WidgetType[] = [{
   id: '1',
   component: <FeedbackWidget/>,
   title: feedbackWidgetTitle,
-}, {
+},
+  {
   id: '2',
   component: <FeedbackProgressWidget/>,
   title: feedbackProgressWidgetTitle,
@@ -32,6 +35,11 @@ const widgetsData: WidgetType[] = [{
     id: '3',
     component: <PaymentsWidget/>,
     title: paymentsWidgetTitle,
+  },
+  {
+    id: '4',
+    component: <PaymentsProgressWidget/>,
+    title: paymentsProgressWidgetTitle,
   },
 ];
 

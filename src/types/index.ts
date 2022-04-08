@@ -14,3 +14,8 @@ export type GuestDietType = {
   name: string;
   isVegan: boolean;
 };
+
+export type ProgressBarType = {
+  currentProgress: number;
+  maxValue: number;
+}

@@ -1,21 +1,19 @@
 import React, {useEffect, useState} from 'react';
+
 import LinearProgress, {LinearProgressProps} from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-type LinearProcessBarPropsType = {
-  currentProgress: number;
-  maxValue: number;
-}
+import {ProgressBarType} from "../../types";
 
-export const LinearProcessBar = ({currentProgress, maxValue}: LinearProcessBarPropsType) => {
-  const [progress, setCurrentProgress] = useState(0);
+export const LinearProgressBar = ({currentProgress, maxValue}: ProgressBarType) => {
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     if (maxValue < 1) {
-      setCurrentProgress(0);
+      setProgress(0);
     } else {
-      setCurrentProgress((100 / maxValue) * currentProgress);
+      setProgress((100 / maxValue) * currentProgress);
     }
   }, [currentProgress]);
 
