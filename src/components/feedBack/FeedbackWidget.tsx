@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 
 import {useDispatch} from "react-redux";
-import {Button, Grid, Typography, List} from "@mui/material";
+import {Button, Grid, List, Typography} from "@mui/material";
 
 import {GuestItem} from "./GuestItem";
 import {DropDownMenu} from "../common/dropDownMenu/DropDownMenu";
@@ -39,7 +39,6 @@ export const FeedbackWidget = () => {
   const [openList, setOpenList] = useState<boolean>(true);
   const [filter, setFilter] = useState<string>(FilterOptions.all);
 
-  console.log(filter)
   const guestsFromLocalStorage = getLocalStorageState<PartyGuestType[]>(
     "guests",
     []

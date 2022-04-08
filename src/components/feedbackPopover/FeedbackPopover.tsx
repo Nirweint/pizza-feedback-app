@@ -1,38 +1,17 @@
-import React from "react";
+import React from 'react';
 
-import {useDispatch} from "react-redux";
-import {Box, Button, Paper, Rating, Typography} from "@mui/material";
-
-import {setFeedbackAC} from "../../store/reducers/feedback";
-import {getLocalStorageState, setLocalStorageState} from "../../localStorage";
+import Typography from '@mui/material/Typography';
+import {Box, Paper, Rating} from "@mui/material";
 
 import {FeedbackType} from "../../types";
 
-type GuestFeedbackPropsType = {
+
+type FeedbackPopoverPropsType = {
   currentGuestFeedback: FeedbackType;
-  setOpenModal: (value: boolean) => void;
-};
+}
 
-export const GuestFeedback = ({
-                                currentGuestFeedback,
-                                setOpenModal
-                              }: GuestFeedbackPropsType) => {
-  const dispatch = useDispatch()
+export const FeedbackPopover = ({currentGuestFeedback}: FeedbackPopoverPropsType) => {
   const {name, phone, rating, comment} = currentGuestFeedback;
-
-  const feedbacksFromLocalStorage = getLocalStorageState<FeedbackType[]>(
-    "feedback",
-    []
-  );
-
-  const handleDeleteClick = () => {
-    const newFeedbackData = feedbacksFromLocalStorage.filter(
-      (guest) => guest.name !== name
-    );
-    setLocalStorageState("feedback", newFeedbackData);
-    dispatch(setFeedbackAC(newFeedbackData))
-    setOpenModal(false);
-  };
 
   return (
     <div>
@@ -40,9 +19,6 @@ export const GuestFeedback = ({
         <Box p={2} sx={{display: "flex", flexDirection: "column"}}>
           <Box sx={{display: "flex", justifyContent: "space-between"}}>
             <Typography>Name</Typography>
-            <Button onClick={handleDeleteClick} color={"error"}>
-              delete
-            </Button>
           </Box>
           <Typography variant={"h4"}>{name}</Typography>
           <Box sx={{margin: "10px 0"}}>
