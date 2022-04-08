@@ -15,7 +15,8 @@ export const WidgetCard: FC<WidgetCardPropsType> = ({children, title}) => {
       minWidth: 345,
       maxHeight: 610,
       overflowY: 'scroll',
-      "::-webkit-scrollbar": {display: "none", scrollbarWidth: 'none'}
+      "::-webkit-scrollbar": {display: "none", scrollbarWidth: 'none'},
+      marginBottom: '20px',
     }}>
       <CardHeader
         action={

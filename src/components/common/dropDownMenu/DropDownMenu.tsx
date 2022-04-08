@@ -8,11 +8,11 @@ import Fade from '@mui/material/Fade';
 
 type DropDownMenuType = {
   options: string[];
-  name: string;
+  value: string;
   onChange: (value: string) => void
 }
 
-export const DropDownMenu = ({options, name, onChange}: DropDownMenuType) => {
+export const DropDownMenu = ({options, value, onChange}: DropDownMenuType) => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -22,9 +22,9 @@ export const DropDownMenu = ({options, name, onChange}: DropDownMenuType) => {
     setAnchorEl(null);
   };
 
-  const handleMenuItemClick = (name: string) => {
+  const handleMenuItemClick = (value: string) => {
     setAnchorEl(null);
-    onChange(name);
+    onChange(value);
   }
 
   return (
@@ -36,7 +36,7 @@ export const DropDownMenu = ({options, name, onChange}: DropDownMenuType) => {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        {name}
+        {value}
       </Button>
       <Menu
         id="fade-menu"

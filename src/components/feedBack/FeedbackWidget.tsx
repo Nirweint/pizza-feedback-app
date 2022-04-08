@@ -126,8 +126,11 @@ export const FeedbackWidget = () => {
   return (
     <Grid container flexDirection='column'>
       <Grid item alignSelf='flex-end'>
-        <DropDownMenu options={filterOptions} name='Filter'
-                      onChange={handleFilterChange}/>
+        <DropDownMenu
+          options={filterOptions}
+          value={filter}
+          onChange={handleFilterChange}
+        />
       </Grid>
       <Grid
         item
