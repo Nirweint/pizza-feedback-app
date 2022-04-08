@@ -52,6 +52,8 @@ export const Dashboard = () => {
     <>
       <Grid container p={2}>
         <Typography variant="h3">Dashboard</Typography>
+        <Grid container>
+        </Grid>
         <DragDropContext onDragEnd={handleOnDragEnd}>
           <Droppable droppableId='widgets' direction='horizontal'>
             {(provided): JSX.Element => (

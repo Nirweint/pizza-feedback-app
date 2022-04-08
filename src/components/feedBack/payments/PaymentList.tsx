@@ -1,32 +1,43 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PARTY_GUEST_URL, getGuests, getPizza } from "../../../api";
 import { getPizzaType, roundPrice } from "../../../utils/utilsForPayment";
 import Table from "rc-table";
 import classes from './styles.module.css';
 
 export const PaymentList = () => {
-  const [guests, setGuests] = useState([]);
-  const [pizza, setPizza] = useState([]);
-  const [paidArray, setPaidArray] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [users, setUsers] = useState([]);
+    const [guests, setGuests] = useState([]);
+    const [pizza, setPizza] = useState([]);
+    const [paidArray, setPaidArray] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [users, setUsers] = useState([]);
+    const [pizzaLovers, setPizzaLovers] = useState([]);
+  
+    const parts = pizzaLovers.length;
+    // const angle = 360 / parts;
+  
+    useEffect(() => {
+      setPizzaLovers(guests.filter(({ eatsPizza }) => eatsPizza));
+    }, [guests]);
+  
+    useEffect(() => {
+      const handleOnClick = async () => {
+        setLoading(true);
+        const guests = await getGuests();
+        setGuests(guests);//@ts-ignore
+        const lovers = guests.filter(({ eatsPizza }) => eatsPizza);
+        const pizza = await getPizza(getPizzaType(lovers), lovers.length);
+        setPizza(pizza);
+        const guestsResponse = await fetch(PARTY_GUEST_URL);
+        const { party } = await guestsResponse.json();
+        setUsers(party);
+        setPaidArray([]);
+        pizza && guests && setLoading(false);
+      };
+  
+      handleOnClick();
+    }, []);
 
-  const pizzaLovers = guests.filter(({ eatsPizza }) => eatsPizza);
-  const parts = pizzaLovers.length;
-  const angle = 360 / parts;
-
-  const handleOnClick = async () => {
-    setLoading(true);
-    const guests = await getGuests();
-    setGuests(guests);
-    const pizza = await getPizza(getPizzaType(pizzaLovers), parts);
-    setPizza(pizza);
-    const guestsResponse = await fetch(PARTY_GUEST_URL);
-    const { party } = await guestsResponse.json();
-    setUsers(party);
-    setPaidArray([]);
-    pizza && guests && setLoading(false);
-  };
+    //   useEffect(() => {handleOnClick},[])
 //@ts-ignore
   const partPrice = pizza.price / parts || 0;
 
@@ -54,36 +65,14 @@ export const PaymentList = () => {
     }
   ];
   return (
-    <div>
-      {/* create Load party btn */} 
-      <button className={classes.loadBtn} onClick={handleOnClick}>
-        Load party
-      </button>
+    <div>        
       {loading ? (
         <p>loading...</p>
       ) : (
         <div>
           {!!guests.length && (
             <>
-              {/* create pizza slicer */}
-              <div className={classes.wrapperPizza}>
-                {pizzaLovers.map((item, index) => {
-                  return (
-                    <div
-                      key={index}
-                      style={{
-                        transform: `rotate(${index * angle}deg)`
-                      }}
-                    ></div>
-                  );
-                })}
-              </div>
-              <div style={{ margin: "20px" }}>
-                There are {users.length} people at the party
-              </div>
-              <div style={{ margin: "20px" }}>
-                There are {pizzaLovers.length} pizza eaters at the party
-              </div>
+            
               <div>
                 {/* create table with react-table */}
                 <Table
@@ -98,7 +87,6 @@ export const PaymentList = () => {
                               (paidElement) => paidElement.name === item.name
                             ).length;
                             return {
-                              // create colums "Name"
                               name: (
                                 <p
                                   style={{
@@ -110,8 +98,6 @@ export const PaymentList = () => {
                                   {item.name}
                                 </p>
                               ),
-
-                              // create colums "Share to pay"
                               price: (
                                 <span>
                                   {isDisabled ? "0" : roundPrice(partPrice)} BYN
