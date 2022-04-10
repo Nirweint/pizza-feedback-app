@@ -5,6 +5,11 @@ import {Box, Button, Paper, Rating, Typography} from "@mui/material";
 
 import {setFeedbackAC} from "../../store/reducers/feedback";
 import {getLocalStorageState, setLocalStorageState} from "../../localStorage";
+import {
+  COMMENT_INPUT_TEXT,
+  PHONE_INPUT_TEXT
+} from "../../wordsList/feedbackWidgetWordsList";
+import {DELETE_BUTTON_TEXT} from "../../wordsList/common";
 
 import {FeedbackType} from "../../types";
 
@@ -41,7 +46,7 @@ export const GuestFeedback = ({
           <Box sx={{display: "flex", justifyContent: "space-between"}}>
             <Typography>Name</Typography>
             <Button onClick={handleDeleteClick} color={"error"}>
-              delete
+              {DELETE_BUTTON_TEXT}
             </Button>
           </Box>
           <Typography variant={"h4"}>{name}</Typography>
@@ -50,13 +55,13 @@ export const GuestFeedback = ({
           </Box>
           <Box sx={{margin: "0 0 10px 0"}}>
             <Typography variant={"h5"} sx={{alignSelf: "flex-start"}}>
-              PHONE
+              {PHONE_INPUT_TEXT}
             </Typography>
             <Typography>{phone}</Typography>
           </Box>
           <Box sx={{margin: "0 0 10px 0"}}>
             <Typography variant={"h5"} sx={{alignSelf: "flex-start"}}>
-              COMMENT
+              {COMMENT_INPUT_TEXT}
             </Typography>
             <Typography>{comment}</Typography>
           </Box>
