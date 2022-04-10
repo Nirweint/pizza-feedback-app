@@ -7,13 +7,14 @@ import {
   ListItemText
 } from "@mui/material";
 import Typography from "@mui/material/Typography";
-import Popover from "@mui/material/Popover";
 
 import {FeedbackForm} from "./FeedbackForm";
 import {GuestFeedback} from "./GuestFeedback";
 import {FormModal} from './FormModal';
 import {FeedbackPopover} from "../feedbackPopover/FeedbackPopover";
+import {PopUp} from "../popUp/PopUp";
 import {getLocalStorageState} from "../../localStorage";
+import {USER_HAS_NO_FEEDBACK_TEXT} from "../../wordList";
 
 import {FeedbackType, GuestDietType} from "../../types";
 
@@ -27,46 +28,46 @@ type GuestItemPropsType = {
 export const GuestItem = (props: GuestItemPropsType) => {
   const {guestDiet, eatsPizza, name, handleGuestsListClick} = props;
 
-  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-
-  const handlePopoverOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handlePopoverClose = () => {
-    setAnchorEl(null);
-  };
-
   const [openModal, setOpenModal] = useState<boolean>(false);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   const feedbacksFromLocalStorage = getLocalStorageState<FeedbackType[]>(
     "feedback",
     []
   );
 
-  const currentGuestFeedback = feedbacksFromLocalStorage.filter(
-    (guest) => guest.name === name
-  );
+  const handlePopUpOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePopUpClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleGuestClick = () => {
     handleGuestsListClick();
     setOpenModal(true);
   };
 
-  const open = Boolean(anchorEl);
+  const currentGuestFeedback = feedbacksFromLocalStorage.filter(
+    (guest) => guest.name === name
+  );
+
+  const isCurrentGuestHasFeedback = currentGuestFeedback.length !== 0;
 
   return (
     <ListItem disablePadding>
-      <ListItemButton data-testid='name-wrapper' disabled={!eatsPizza}
-                      onClick={handleGuestClick}
-                      aria-owns={open ? 'mouse-over-popover' : undefined}
-                      aria-haspopup="true"
-                      onMouseEnter={handlePopoverOpen}
-                      onMouseLeave={handlePopoverClose}
+      <ListItemButton
+        data-testid='name-wrapper'
+        disabled={!eatsPizza}
+        onClick={handleGuestClick}
+        aria-owns={Boolean(anchorEl) ? 'mouse-over-popover' : undefined}
+        aria-haspopup="true"
+        onMouseEnter={handlePopUpOpen}
+        onMouseLeave={handlePopUpClose}
       >
-        {currentGuestFeedback.length !== 0 && (
-          <ListItemIcon sx={{minWidth: 25}}>✅</ListItemIcon>
-        )}
+        {isCurrentGuestHasFeedback && (
+          <ListItemIcon sx={{minWidth: 25}}>✅</ListItemIcon>)}
         <ListItemText
           data-testid='name-text'
           primary={name}
@@ -77,47 +78,23 @@ export const GuestItem = (props: GuestItemPropsType) => {
           }}
         />
       </ListItemButton>
-      <Popover
-        id="mouse-over-popover"
-        sx={{
-          pointerEvents: 'none',
-        }}
-        open={open}
-        anchorEl={anchorEl}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-        transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
-        }}
-        onClose={handlePopoverClose}
-        disableRestoreFocus
-      >
-        <Typography sx={{p: 1}}>
-          {currentGuestFeedback.length === 0 ? (
-              <Typography>The user has not entered data yet</Typography>
-            )
-            :
-            (
-              <FeedbackPopover
-                currentGuestFeedback={currentGuestFeedback[0]}
-              />
-            )}
-
-        </Typography>
-      </Popover>
-      {currentGuestFeedback.length === 0 ? (
-        <FormModal setOpenModal={setOpenModal} openModal={openModal}>
-          <FeedbackForm name={name} setOpenModal={setOpenModal}/>
-        </FormModal>
-      ) : (
+      <PopUp onPopUpClose={handlePopUpClose} anchorEl={anchorEl}>
+        {isCurrentGuestHasFeedback ? (
+          <FeedbackPopover currentGuestFeedback={currentGuestFeedback[0]}/>
+        ) : (
+          <Typography>{USER_HAS_NO_FEEDBACK_TEXT}</Typography>
+        )}
+      </PopUp>
+      {isCurrentGuestHasFeedback ? (
         <FormModal setOpenModal={setOpenModal} openModal={openModal}>
           <GuestFeedback
             currentGuestFeedback={currentGuestFeedback[0]}
             setOpenModal={setOpenModal}
           />
+        </FormModal>
+      ) : (
+        <FormModal setOpenModal={setOpenModal} openModal={openModal}>
+          <FeedbackForm name={name} setOpenModal={setOpenModal}/>
         </FormModal>
       )}
     </ListItem>
