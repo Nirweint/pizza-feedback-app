@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Button, Grid, List, Typography} from "@mui/material";
 
 import {GuestItem} from "./GuestItem";
@@ -10,13 +10,19 @@ import {
   getLocalStorageState,
   setLocalStorageState
 } from "../../localStorage";
-import {setFeedbackAC} from "../../store/reducers/feedback";
+import {setFeedbackAC, setGuestsAC} from "../../store/reducers/feedback";
+import {selectGuests} from "../../store/selectors/feedback";
 import {api} from "../../api";
+import {
+  FEEDBACK_CLEAR_BUTTON_TEXT,
+  FEEDBACK_WIDGET_TITLE_TEXT
+} from "../../wordsList/feedbackWidgetWordsList";
+import {filterGuests} from "../../helpers/filterGuests";
 import {createRequestTextForDiets} from "../../utils";
 
 import {FeedbackType, GuestDietType, PartyGuestType} from "../../types";
 
-enum FilterOptions {
+export enum FilterOptions {
   all = 'All',
   vegans = 'Vegans',
   meat = 'Meat',
@@ -32,8 +38,8 @@ const filterOptions = [
 
 export const FeedbackWidget = () => {
   const dispatch = useDispatch()
+  const guests = useSelector(selectGuests);
 
-  const [guests, setGuests] = useState<PartyGuestType[]>([]);
   const [diet, setDiet] = useState<GuestDietType[]>([]);
   const [appInitialized, setAppInitialized] = useState<boolean>(false);
   const [openList, setOpenList] = useState<boolean>(true);
@@ -75,7 +81,7 @@ export const FeedbackWidget = () => {
         .then((res) => {
           const guests = res.data.party;
           setLocalStorageState("guests", guests);
-          setGuests(guests);
+          dispatch(setGuestsAC(guests));
           return guests;
         })
         .then((res) => {
@@ -89,34 +95,14 @@ export const FeedbackWidget = () => {
           console.log(e);
         });
     } else {
-      setGuests(guestsFromLocalStorage);
+      dispatch(setGuestsAC(guestsFromLocalStorage))
       setDiet(dietFromLocalStorage);
       dispatch(setFeedbackAC(feedbacksFromLocalStorage))
       setAppInitialized(true);
     }
   }, [appInitialized]);
 
-  let filteredGuests = guests;
-
-  if (filter === FilterOptions.vegans) {
-    filteredGuests = guests.filter(({name, eatsPizza}) => {
-      const guestDiet = diet.find((guest) => guest.name === name);
-      return guestDiet?.isVegan && eatsPizza;
-    })
-  }
-
-  if (filter === FilterOptions.meat) {
-    filteredGuests = guests.filter(({name, eatsPizza}) => {
-      const guestDiet = diet.find((guest) => guest.name === name);
-      return !guestDiet?.isVegan && eatsPizza;
-    })
-  }
-
-  if (filter === FilterOptions.active) {
-    filteredGuests = guests.filter(({name, eatsPizza}) => {
-      return eatsPizza;
-    })
-  }
+  const filteredGuests = filterGuests(guests, diet, filter);
 
   if (!appInitialized) {
     return <div>Loading</div>;
@@ -140,7 +126,7 @@ export const FeedbackWidget = () => {
           margin: 2
         }}
       >
-        <Typography>Guests list</Typography>
+        <Typography>{FEEDBACK_WIDGET_TITLE_TEXT}</Typography>
         <List component="div" disablePadding>
           {filteredGuests.map(({name, eatsPizza}, index) => {
             const guestDiet = diet.find((guest) => guest.name === name);
@@ -161,7 +147,7 @@ export const FeedbackWidget = () => {
           color={"error"}
           onClick={onClearAppClick}
         >
-          Clear app
+          {FEEDBACK_CLEAR_BUTTON_TEXT}
         </Button>
       </Grid>
     </Grid>

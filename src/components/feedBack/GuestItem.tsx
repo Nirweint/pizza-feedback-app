@@ -1,12 +1,10 @@
 import React, {useState} from "react";
 
-import {
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText
-} from "@mui/material";
 import Typography from "@mui/material/Typography";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 
 import {FeedbackForm} from "./FeedbackForm";
 import {GuestFeedback} from "./GuestFeedback";
@@ -14,7 +12,7 @@ import {FormModal} from './FormModal';
 import {FeedbackPopover} from "../feedbackPopover/FeedbackPopover";
 import {PopUp} from "../popUp/PopUp";
 import {getLocalStorageState} from "../../localStorage";
-import {USER_HAS_NO_FEEDBACK_TEXT} from "../../wordList";
+import {USER_HAS_NO_FEEDBACK_TEXT} from "../../wordsList/feedbackWidgetWordsList";
 
 import {FeedbackType, GuestDietType} from "../../types";
 
