@@ -6,6 +6,7 @@ exports[`GuestItem renders correctly 1`] = `
     class="MuiListItem-root MuiListItem-gutters css-1nxmd3h-MuiListItem-root"
   >
     <div
+      aria-haspopup="true"
       class="MuiListItemButton-root MuiListItemButton-gutters MuiButtonBase-root css-cvhtoe-MuiButtonBase-root-MuiListItemButton-root"
       data-testid="name-wrapper"
       role="button"
@@ -26,6 +27,7 @@ exports[`GuestItem renders correctly 1`] = `
         class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
       />
     </div>
+    <div />
     <div />
   </li>
 </DocumentFragment>

@@ -3,17 +3,31 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
 import {FeedbackForm} from "../FeedbackForm";
 
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+
+
 
 describe('FeedbackForm', () => {
 
+  const initialState = { output: 10 };
+  const mockStore = configureStore();
+  let store;
+
   test('renders add new field button', () => {
-    render(<FeedbackForm name={"Alex"} setOpenModal={() => {}}/>)
+    store = mockStore(initialState);
+    render(<Provider store={store}>
+      <FeedbackForm name={"Alex"} setOpenModal={() => {}}/>
+    </Provider>)
 
     expect(screen.getByText(/ADD NEW FIELD/i)).toBeInTheDocument();
   });
 
   test('renders correct button', () => {
-    render(<FeedbackForm name={'Alex'} setOpenModal={() => {}}/>)
+    store = mockStore(initialState);
+    render(<Provider store={store}>
+      <FeedbackForm name={"Alex"} setOpenModal={() => {}}/>
+    </Provider>)
 
     const cancelButton = screen.getByText(/CANCEL/i);
 
@@ -23,15 +37,23 @@ describe('FeedbackForm', () => {
   })
 
   test('renders correct user name', () => {
-    render(<FeedbackForm name={'Alex'} setOpenModal={() => {}}/>)
+    store = mockStore(initialState);
+    render(<Provider store={store}>
+      <FeedbackForm name={"Alex"} setOpenModal={() => {}}/>
+    </Provider>)
     expect(screen.getByText(/Alex/i)).toBeInTheDocument();
 
-    render(<FeedbackForm name={'Andrey V'} setOpenModal={() => {}}/>)
+    render(<Provider store={store}>
+      <FeedbackForm name={"Andrey V"} setOpenModal={() => {}}/>
+    </Provider>)
     expect(screen.getByText(/Andrey V/i)).toBeInTheDocument();
   })
 
   test('renders all inputs', () => {
-    render(<FeedbackForm name={'Alex'} setOpenModal={() => {}}/>)
+    store = mockStore(initialState);
+    render(<Provider store={store}>
+      <FeedbackForm name={"Alex"} setOpenModal={() => {}}/>
+    </Provider>)
 
     const phoneInput = screen.getByLabelText(/phone/i);
     const commentInput = screen.getByLabelText(/comment/i);
@@ -43,7 +65,10 @@ describe('FeedbackForm', () => {
   })
 
   test('correct default value in rating input', () => {
-    render(<FeedbackForm name={'Alex'} setOpenModal={() => {}}/>)
+    store = mockStore(initialState);
+    render(<Provider store={store}>
+      <FeedbackForm name={"Alex"} setOpenModal={() => {}}/>
+    </Provider>)
 
     const rating = screen.getByDisplayValue(/3/i);
 
@@ -53,7 +78,10 @@ describe('FeedbackForm', () => {
   })
 
   test('adding inputs on addNewField click', () => {
-    render(<FeedbackForm name={'Alex'} setOpenModal={() => {}}/>)
+    store = mockStore(initialState);
+    render(<Provider store={store}>
+      <FeedbackForm name={"Alex"} setOpenModal={() => {}}/>
+    </Provider>)
     const addNewFieldButton = screen.getByText(/ADD NEW FIELD/i);
 
     userEvent.click(addNewFieldButton)
@@ -69,7 +97,10 @@ describe('FeedbackForm', () => {
   })
 
   test('new inputs must be on top of the form', () => {
-    render(<FeedbackForm name={'Alex'} setOpenModal={() => {}}/>)
+    store = mockStore(initialState);
+    render(<Provider store={store}>
+      <FeedbackForm name={"Alex"} setOpenModal={() => {}}/>
+    </Provider>)
     const addNewFieldButton = screen.getByText(/ADD NEW FIELD/i);
 
     userEvent.click(addNewFieldButton)
