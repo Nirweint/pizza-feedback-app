@@ -5,20 +5,24 @@ import {Button, Grid, List, Typography} from "@mui/material";
 
 import {GuestItem} from "./GuestItem";
 import {DropDownMenu} from "../common/dropDownMenu/DropDownMenu";
+import {clearLocalStorage, getLocalStorageState} from "../../localStorage";
 import {
-  clearLocalStorage,
-  getLocalStorageState,
-  setLocalStorageState
-} from "../../localStorage";
-import {setFeedbackAC, setGuestsAC} from "../../store/reducers/feedback";
-import {selectGuests} from "../../store/selectors/feedback";
-import {api} from "../../api";
+  fetchGuestsDataAC,
+  setDietAC,
+  setFeedbackAC,
+  setFeedbackInitializedAC,
+  setGuestsAC
+} from "../../store/reducers/feedback";
+import {
+  selectDiet,
+  selectGuests,
+  selectIsFeedbackInitialized
+} from "../../store/selectors/feedback";
 import {
   FEEDBACK_CLEAR_BUTTON_TEXT,
   FEEDBACK_WIDGET_TITLE_TEXT
 } from "../../wordsList/feedbackWidgetWordsList";
 import {filterGuests} from "../../helpers/filterGuests";
-import {createRequestTextForDiets} from "../../utils";
 
 import {FeedbackType, GuestDietType, PartyGuestType} from "../../types";
 
@@ -38,10 +42,11 @@ const filterOptions = [
 
 export const FeedbackWidget = () => {
   const dispatch = useDispatch()
-  const guests = useSelector(selectGuests);
 
-  const [diet, setDiet] = useState<GuestDietType[]>([]);
-  const [appInitialized, setAppInitialized] = useState<boolean>(false);
+  const guests = useSelector(selectGuests);
+  const diet = useSelector(selectDiet);
+  const isFeedbackInitialized = useSelector(selectIsFeedbackInitialized);
+
   const [openList, setOpenList] = useState<boolean>(true);
   const [filter, setFilter] = useState<string>(FilterOptions.all);
 
@@ -66,9 +71,10 @@ export const FeedbackWidget = () => {
     setFilter(filterValue);
   };
 
-  const onClearAppClick = () => {
+  const handleClearAppClick = () => {
     clearLocalStorage();
-    setAppInitialized(false);
+    setFilter(FilterOptions.all)
+    dispatch(setFeedbackInitializedAC(false));
   };
 
   useEffect(() => {
@@ -76,35 +82,22 @@ export const FeedbackWidget = () => {
       guestsFromLocalStorage.length === 0 ||
       dietFromLocalStorage.length === 0
     ) {
-      api
-        .getPartyGuests()
-        .then((res) => {
-          const guests = res.data.party;
-          setLocalStorageState("guests", guests);
-          dispatch(setGuestsAC(guests));
-          return guests;
-        })
-        .then((res) => {
-          api.checkGuestsDiet(createRequestTextForDiets(res)).then((res) => {
-            setLocalStorageState("diet", res.data.diet);
-            setDiet(res.data.diet);
-            setAppInitialized(true);
-          });
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      try {
+        dispatch(fetchGuestsDataAC())
+      } catch (e) {
+        console.log(e)
+      }
     } else {
       dispatch(setGuestsAC(guestsFromLocalStorage))
-      setDiet(dietFromLocalStorage);
+      dispatch(setDietAC(dietFromLocalStorage))
       dispatch(setFeedbackAC(feedbacksFromLocalStorage))
-      setAppInitialized(true);
+      dispatch(setFeedbackInitializedAC(true))
     }
-  }, [appInitialized]);
+  }, [isFeedbackInitialized]);
 
   const filteredGuests = filterGuests(guests, diet, filter);
 
-  if (!appInitialized) {
+  if (!isFeedbackInitialized) {
     return <div>Loading</div>;
   }
 
@@ -145,7 +138,7 @@ export const FeedbackWidget = () => {
         <Button
           variant={"outlined"}
           color={"error"}
-          onClick={onClearAppClick}
+          onClick={handleClearAppClick}
         >
           {FEEDBACK_CLEAR_BUTTON_TEXT}
         </Button>

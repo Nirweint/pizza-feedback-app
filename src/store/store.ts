@@ -1,17 +1,19 @@
 import {applyMiddleware, combineReducers, createStore} from 'redux';
-import thunk, {ThunkAction} from "redux-thunk";
-import {FeedbackActionsType, feedbackReducer} from "./reducers/feedback";
-import {PaymentsActionsType, paymentsReducer} from "./reducers/payments";
+import createSagaMiddleware from 'redux-saga';
+
+import {paymentsReducer} from "./reducers/payments";
+import {feedbackReducer} from "./reducers/feedback";
+import {rootWatcher} from "./saga";
 
 const rootReducer = combineReducers({
   feedback: feedbackReducer,
   payments: paymentsReducer,
-})
+});
 
-export const store = createStore(rootReducer, applyMiddleware(thunk));
+const sagaMiddleware = createSagaMiddleware();
 
-export type RootStateType = ReturnType<typeof rootReducer>
+export const store = createStore(rootReducer, applyMiddleware(sagaMiddleware));
 
-export type ThunkType = ThunkAction<void, RootStateType, unknown, RootActionsType>
+export type RootStateType = ReturnType<typeof rootReducer>;
 
-export type RootActionsType = FeedbackActionsType | PaymentsActionsType;
+sagaMiddleware.run(rootWatcher);

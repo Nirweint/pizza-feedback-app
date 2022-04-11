@@ -23,11 +23,11 @@ export const api = {
   },
 };
 
-type PartyGuestsResponseType = {
+export type PartyGuestsResponseType = {
   party: PartyGuestType[];
 };
 
-type GuestDietResponseType = {
+export type GuestDietResponseType = {
   diet: GuestDietType[];
 };
 
