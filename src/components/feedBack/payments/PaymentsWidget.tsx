@@ -1,11 +1,19 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Table from "rc-table";
 
-import {setMoneyCollectedAC, setTotalOrderAC} from "../../../store/reducers/payments";
-import {getPizzaType, roundPrice} from "../../../utils/utilsForPayment";
-import {getGuests, getPizza, PARTY_GUEST_URL} from "../../../api";
+import {
+  fetchPaymentsDataAC,
+  setMoneyCollectedAC,
+  setTotalOrderAC
+} from "../../../store/reducers/payments";
+import {roundPrice} from "../../../utils/utilsForPayment";
+import {
+  selectPaymentsGuests,
+  selectPaymentsIsLoading,
+  selectPaymentsPizza
+} from "../../../store/selectors/payments";
 
 import classes from './styles.module.css';
 
@@ -36,39 +44,26 @@ const columns = [
 export const PaymentsWidget = () => {
   const dispatch = useDispatch();
 
-  const [guests, setGuests] = useState([]);
-  const [pizza, setPizza] = useState([]);
+  const isLoading = useSelector(selectPaymentsIsLoading)
+  const guests = useSelector(selectPaymentsGuests)
+  const pizza = useSelector(selectPaymentsPizza)
+
   const [paidArray, setPaidArray] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [users, setUsers] = useState([]);
   const [pizzaLovers, setPizzaLovers] = useState([]);
 
   const parts = pizzaLovers.length;
 
   useEffect(() => {
+    // @ts-ignore
     setPizzaLovers(guests.filter(({eatsPizza}) => eatsPizza));
   }, [guests]);
 
   useEffect(() => {
-    const handleOnClick = async () => {
-      setLoading(true);
-      const guests = await getGuests();
-      setGuests(guests);//@ts-ignore
-      const lovers = guests.filter(({eatsPizza}) => eatsPizza);
-      const pizza = await getPizza(getPizzaType(lovers), lovers.length);
-      setPizza(pizza);
-      const guestsResponse = await fetch(PARTY_GUEST_URL);
-      const {party} = await guestsResponse.json();
-      setUsers(party);
-      setPaidArray([])
-      pizza && guests && setLoading(false);
-    };
-
-    handleOnClick();
+    dispatch(fetchPaymentsDataAC())
+    setPaidArray([])
   }, []);
 
-  //@ts-ignore
-  const partPrice = pizza.price / parts || 0;
+  const partPrice = Number(pizza.price) / parts || 0;
 
   useEffect(() => {
     //@ts-ignore
@@ -78,7 +73,7 @@ export const PaymentsWidget = () => {
 
   return (
     <div>
-      {loading ? (
+      {isLoading ? (
         <p>loading...</p>
       ) : (
         <div>
@@ -136,7 +131,7 @@ export const PaymentsWidget = () => {
                         }),
 
                         // add "Total order"
-                        !loading && {
+                        !isLoading && {
                           name: "Total order",
                           //@ts-ignore
                           price: <p> {roundPrice(pizza.price) || 0} BYN</p>,
@@ -144,7 +139,7 @@ export const PaymentsWidget = () => {
                         },
 
                         // add "Money to collect"
-                        !loading && {
+                        !isLoading && {
                           name: "Money to collect",
                           price: (
                             <p>
@@ -158,7 +153,7 @@ export const PaymentsWidget = () => {
                           key: "to collect"
                         },
                         // add "Money collected"
-                        !loading && {
+                        !isLoading && {
                           name: "Money collected",
                           price: (
                             <p>

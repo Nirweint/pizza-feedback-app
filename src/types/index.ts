@@ -19,3 +19,9 @@ export type ProgressBarType = {
   currentProgress: number;
   maxValue: number;
 }
+
+export type PizzaType = {
+  name: string;
+  price: string;
+  type: string;
+}
