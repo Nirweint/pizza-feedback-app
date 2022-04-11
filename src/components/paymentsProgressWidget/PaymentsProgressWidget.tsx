@@ -9,6 +9,7 @@ import {
   selectPaymentsMoneyCollected,
   selectPaymentsTotalOrder
 } from "../../store/selectors/payments";
+import {PAYMENTS_PROGRESS_TITLE_TEXT} from "../../wordsList/paymentsProgressWidgetWordsList";
 
 export const PaymentsProgressWidget = () => {
 
@@ -17,7 +18,7 @@ export const PaymentsProgressWidget = () => {
 
   return (
     <Grid container direction='column'>
-      <Typography marginBottom={2}>Paid check progress</Typography>
+      <Typography marginBottom={2} >{PAYMENTS_PROGRESS_TITLE_TEXT}</Typography>
       <CircularProgressBar
         maxValue={totalOrder}
         currentProgress={moneyCollected}

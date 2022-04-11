@@ -1,0 +1,1 @@
+export const PAYMENTS_PROGRESS_TITLE_TEXT = 'Paid check progress';
