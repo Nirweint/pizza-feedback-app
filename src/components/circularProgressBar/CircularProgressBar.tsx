@@ -20,6 +20,12 @@ export const CircularProgressBar = ({currentProgress, maxValue}: ProgressBarType
   return <CircularProgressWithLabel value={progress}/>;
 };
 
+const progressColorStyle = (progress: number) => {
+  if (progress < 40) return 'error';
+  if (progress < 70) return 'warning';
+  return 'success';
+}
+
 const CircularProgressWithLabel = (props: CircularProgressProps & { value: number },) => {
   return (
     <Box sx={{
@@ -28,7 +34,11 @@ const CircularProgressWithLabel = (props: CircularProgressProps & { value: numbe
       width: '100%',
       justifyContent: 'center',
     }}>
-      <CircularProgress variant="determinate" {...props} size={200}/>
+      <CircularProgress
+        variant="determinate" {...props}
+        size={200}
+        color={progressColorStyle(props.value)}
+      />
       <Box
         sx={{
           top: 0,
