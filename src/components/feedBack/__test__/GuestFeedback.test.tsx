@@ -12,7 +12,7 @@ const mockData = {
   comment: 'Hello'
 }
 
-const initialState = { output: 10 };
+const initialState = {};
 const mockStore = configureStore();
 let store;
 

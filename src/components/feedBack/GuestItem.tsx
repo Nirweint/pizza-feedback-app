@@ -47,11 +47,11 @@ export const GuestItem = (props: GuestItemPropsType) => {
     setOpenModal(true);
   };
 
-  const currentGuestFeedback = feedbacksFromLocalStorage.filter(
+  const currentGuestFeedback = feedbacksFromLocalStorage.find(
     (guest) => guest.name === name
   );
 
-  const isCurrentGuestHasFeedback = currentGuestFeedback.length !== 0;
+  const isCurrentGuestHasFeedback = currentGuestFeedback !== undefined;
 
   return (
     <ListItem disablePadding>
@@ -78,7 +78,7 @@ export const GuestItem = (props: GuestItemPropsType) => {
       </ListItemButton>
       <PopUp onPopUpClose={handlePopUpClose} anchorEl={anchorEl}>
         {isCurrentGuestHasFeedback ? (
-          <FeedbackPopover currentGuestFeedback={currentGuestFeedback[0]}/>
+          <FeedbackPopover currentGuestFeedback={currentGuestFeedback}/>
         ) : (
           <Typography>{USER_HAS_NO_FEEDBACK_TEXT}</Typography>
         )}
@@ -86,7 +86,7 @@ export const GuestItem = (props: GuestItemPropsType) => {
       {isCurrentGuestHasFeedback ? (
         <FormModal setOpenModal={setOpenModal} openModal={openModal}>
           <GuestFeedback
-            currentGuestFeedback={currentGuestFeedback[0]}
+            currentGuestFeedback={currentGuestFeedback}
             setOpenModal={setOpenModal}
           />
         </FormModal>

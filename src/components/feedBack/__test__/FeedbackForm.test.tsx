@@ -10,7 +10,7 @@ import configureStore from 'redux-mock-store';
 
 describe('FeedbackForm', () => {
 
-  const initialState = { output: 10 };
+  const initialState = {};
   const mockStore = configureStore();
   let store;
 

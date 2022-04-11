@@ -35,7 +35,7 @@ exports[`GuestFeedback renders correctly 1`] = `
           tabIndex={0}
           type="button"
         >
-          delete
+          Delete
         </button>
       </div>
       <h4
