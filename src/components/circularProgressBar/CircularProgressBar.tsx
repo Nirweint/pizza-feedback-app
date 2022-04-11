@@ -35,6 +35,7 @@ const CircularProgressWithLabel = (props: CircularProgressProps & { value: numbe
       justifyContent: 'center',
     }}>
       <CircularProgress
+        data-testid='circular-progress'
         variant="determinate" {...props}
         size={200}
         color={progressColorStyle(props.value)}

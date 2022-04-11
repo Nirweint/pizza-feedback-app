@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CircularProgressBar progress color must be green 1`] = `
+<span
+  aria-valuenow="90"
+  class="MuiCircularProgress-root MuiCircularProgress-determinate MuiCircularProgress-colorSuccess css-zc2y38-MuiCircularProgress-root"
+  data-testid="circular-progress"
+  role="progressbar"
+  style="width: 200px; height: 200px; transform: rotate(-90deg);"
+>
+  <svg
+    class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+    viewBox="22 22 44 44"
+  >
+    <circle
+      class="MuiCircularProgress-circle MuiCircularProgress-circleDeterminate css-oxts8u-MuiCircularProgress-circle"
+      cx="44"
+      cy="44"
+      fill="none"
+      r="20.2"
+      stroke-width="3.6"
+      style="stroke-dasharray: 126.920; stroke-dashoffset: 12.692px;"
+    />
+  </svg>
+</span>
+`;
+
+exports[`CircularProgressBar progress color must be orange 1`] = `
+<span
+  aria-valuenow="50"
+  class="MuiCircularProgress-root MuiCircularProgress-determinate MuiCircularProgress-colorWarning css-osz0mz-MuiCircularProgress-root"
+  data-testid="circular-progress"
+  role="progressbar"
+  style="width: 200px; height: 200px; transform: rotate(-90deg);"
+>
+  <svg
+    class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+    viewBox="22 22 44 44"
+  >
+    <circle
+      class="MuiCircularProgress-circle MuiCircularProgress-circleDeterminate css-oxts8u-MuiCircularProgress-circle"
+      cx="44"
+      cy="44"
+      fill="none"
+      r="20.2"
+      stroke-width="3.6"
+      style="stroke-dasharray: 126.920; stroke-dashoffset: 63.460px;"
+    />
+  </svg>
+</span>
+`;
+
+exports[`CircularProgressBar progress color must be red 1`] = `
+<span
+  aria-valuenow="20"
+  class="MuiCircularProgress-root MuiCircularProgress-determinate MuiCircularProgress-colorError css-1baxt8r-MuiCircularProgress-root"
+  data-testid="circular-progress"
+  role="progressbar"
+  style="width: 200px; height: 200px; transform: rotate(-90deg);"
+>
+  <svg
+    class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+    viewBox="22 22 44 44"
+  >
+    <circle
+      class="MuiCircularProgress-circle MuiCircularProgress-circleDeterminate css-oxts8u-MuiCircularProgress-circle"
+      cx="44"
+      cy="44"
+      fill="none"
+      r="20.2"
+      stroke-width="3.6"
+      style="stroke-dasharray: 126.920; stroke-dashoffset: 101.536px;"
+    />
+  </svg>
+</span>
+`;
