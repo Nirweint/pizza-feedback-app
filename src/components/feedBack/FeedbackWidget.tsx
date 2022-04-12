@@ -82,11 +82,7 @@ export const FeedbackWidget = () => {
       guestsFromLocalStorage.length === 0 ||
       dietFromLocalStorage.length === 0
     ) {
-      try {
         dispatch(fetchGuestsDataAC())
-      } catch (e) {
-        console.log(e)
-      }
     } else {
       dispatch(setGuestsAC(guestsFromLocalStorage))
       dispatch(setDietAC(dietFromLocalStorage))
