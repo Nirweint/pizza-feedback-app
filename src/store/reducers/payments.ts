@@ -1,11 +1,14 @@
 import {PartyGuestType, PizzaType} from "../../types";
+import {CurrencyType} from "../../utils/utilsForPayment";
 
 export enum PAYMENTS_ACTIONS_TYPE {
   SET_MONEY_COLLECTED = 'paymentsReducer/SET_MONEY_COLLECTED',
   SET_TOTAL_ORDER = 'paymentsReducer/SET_TOTAL_ORDER',
   SET_IS_LOADING = 'paymentsReducer/SET_IS_LOADING',
   SET_GUESTS = 'paymentsReducer/SET_GUESTS',
+  SET_TEMPO_GUESTS = 'paymentsReducer/SET_TEMPO_GUESTS',
   SET_PIZZA = 'paymentsReducer/SET_PIZZA',
+  SET_CURRENCY = 'paymentsReducer/SET_CURRENCY',
   FETCH_PAYMENTS_DATA = 'paymentsReducer/FETCH_PAYMENTS_DATA',
 }
 
@@ -15,12 +18,16 @@ export type PaymentsActionsType =
   | SetIsLoadingACType
   | SetPaymentsGuestsACType
   | SetPizzaACType
-  | FetchPaymentsDataACType;
+  | FetchPaymentsDataACType
+  | SetTempoGuestsACType
+  | SetCurrencyACType;
 
 type PaymentsStateType = {
   moneyCollected: number;
   totalOrder: number;
   isLoading: boolean;
+  tempoGuests: any;
+  currency: CurrencyType;
   guests: PartyGuestType[];
   pizza: PizzaType;
 }
@@ -29,6 +36,12 @@ const initialState: PaymentsStateType = {
   moneyCollected: 0,
   totalOrder: 0,
   isLoading: false,
+  tempoGuests: [],
+  currency: {
+    BYN: 0,
+    EUR: 0,
+    USD: 0,
+  },
   guests: [],
   pizza: {
     type: '',
@@ -53,6 +66,12 @@ export const paymentsReducer = (state = initialState, action: PaymentsActionsTyp
     }
     case PAYMENTS_ACTIONS_TYPE.SET_PIZZA: {
       return {...state, pizza: {...action.payload}}
+    }
+    case PAYMENTS_ACTIONS_TYPE.SET_TEMPO_GUESTS: {
+      return {...state, tempoGuests: action.payload}
+    }
+    case PAYMENTS_ACTIONS_TYPE.SET_CURRENCY: {
+      return {...state, currency: {...action.payload}}
     }
     default: {
       return state;
@@ -96,6 +115,22 @@ export type SetPizzaACType = ReturnType<typeof setPizzaAC>
 export const setPizzaAC = (payload: any) => {
   return {
     type: PAYMENTS_ACTIONS_TYPE.SET_PIZZA,
+    payload,
+  } as const
+}
+
+export type SetCurrencyACType = ReturnType<typeof setCurrencyAC>
+export const setCurrencyAC = (payload: CurrencyType) => {
+  return {
+    type: PAYMENTS_ACTIONS_TYPE.SET_CURRENCY,
+    payload,
+  } as const
+}
+
+export type SetTempoGuestsACType = ReturnType<typeof setTempoGuestsAC>
+export const setTempoGuestsAC = (payload: any) => {
+  return {
+    type: PAYMENTS_ACTIONS_TYPE.SET_TEMPO_GUESTS,
     payload,
   } as const
 }

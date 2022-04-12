@@ -8,12 +8,12 @@ const PIZZA_TYPES = {
   CHEESE: "cheese"
 };
 
-type PizzaLoversType = {
+export type PizzaLoversType = {
     isVegan: boolean;
     name: string;
 }
 
-type CurrencyType = {
+export type CurrencyType = {
     BYN: number;
     USD: number;
     EUR: number;
